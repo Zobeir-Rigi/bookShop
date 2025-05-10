@@ -1,9 +1,9 @@
-name:DFTS3
+name: DFTS3
 
 on:
   push:
     branches:
-      - main 
+      - main
     paths:
       - 'client/**'
 
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18 
+          node-version: 18
 
       - name: Install dependencies
         run: |
@@ -30,15 +30,12 @@ jobs:
           cd client
           npm run build
 
-      
       - name: Configure AWS Credentials
-            uses: aws-actions/configure-aws-credentials@v4
-            with:
-              AWS_S3_BUCKET: cyf-cloud-module-zobeir
-              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              AWS_REGION: eu-west-1
-              SOURCE_DIR: client/build
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
 
-          - name: Deploy to S3
-            run: aws s3 sync ./client/build/ s3://cyf-cloud-module-zobeir
+      - name: Deploy to S3
+        run: aws s3 sync ./client/build/ s3://cyf-cloud-module-zobeir --delete
