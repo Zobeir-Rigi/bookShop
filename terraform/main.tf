@@ -31,7 +31,8 @@ resource "aws_instance" "ec2-auto-i-docker" {
 
 
   tags = {
-    Created_By = "terraform"
+    Created_By = "terraform" ,
+    Name        = "ec2-auto-i-docker"
   }
 }
 
